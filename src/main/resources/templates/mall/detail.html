@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="mall/header::head-fragment('NewBee Mall-Product Details','detail')">
+</head>
+<body>
+<header th:replace="mall/header::header-fragment"></header>
+
+<div id="detail">
+    <!-- nav -->
+    <nav th:replace="mall/header::nav-fragment"></nav>
+
+    <div class="dc">
+        <div class="content w">
+            <div class="title fl">product details</div>
+            <nav class="fr">
+                <li><a href="##">Overview</a></li>
+                <li>|</li>
+                <li><a href="##">Details</a></li>
+                <li>|</li>
+                <li><a href="##">User evaluation</a></li>
+                <div class="clear"></div>
+            </nav>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div class="intro mt20 w clearfix">
+        <div class="left fl" style="position: relative;">
+            <div class="swiper-container fl">
+                <img th:src="@{${goodsDetail.goodsCoverImg}}">
+            </div>
+        </div>
+        <div class="right fr">
+            <div class="h3 ml20 mt20" th:text="${goodsDetail.goodsName}">NewBeeMall</div>
+            <div class="sub_title mr40 ml20 mt10" th:text="${goodsDetail.goodsIntro}">NewBeeMall</div>
+            <div class="item_price mr40 ml20 mt10">
+                <th:block th:text="${goodsDetail.originalPrice}+'.00 元'"></th:block>
+                <del>
+                    <th:block th:text="${goodsDetail.sellingPrice}+'.00 元'"></th:block>
+                </del>
+            </div>
+
+            <div class="order">
+                <input class="car" type="button" th:onclick="'saveAndGoCart('+${goodsDetail.goodsId}+')'" value="Shop now"/>
+                <input class="car" type="button" th:onclick="'saveToCart('+${goodsDetail.goodsId}+')'" value="Add to Shopping Cart"/>
+            </div>
+            <div class="tb-extra ml20" id="J_tbExtra">
+                <dl>
+                    <dt>Commitment</dt>
+                    <dd><a class="J_Cont" title="Under the premise of fulfilling the 7-day no reason to return and exchange application, the postal product requires the buyer to bear the return postage, and the non-postal product requires the buyer to bear the shipping and return postage." href="#"
+                           target="_blank"><img th:src="@{/mall/image/7d.jpg}">7天无理由</a></dd>
+                </dl>
+                <dl>
+                    <dt>Payment</dt>
+                    <dd><a href="##" target="_blank"><img th:src="@{/mall/image/hua.png}">Pay</a><a href="##"
+                                                                                                     target="_blank"><img
+                            th:src="@{/mall/image/card.png}">Credit</a><a href="##" target="_blank"><img
+                            th:src="@{/mall/image/ji.png}">Points</a></dd>
+                </dl>
+                <dl>
+                    <dt>Support</dt>
+                    <dd>Trade-in<a style="float:none;text-decoration: underline;" href="##">Details</a></dd>
+                </dl>
+
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <!-- The th: utext tag is used here. Th: utext will not parse html, and th: utext will parse html. -->
+    <div class="goods mt20 w clearfix" th:utext="${goodsDetail.goodsDetailContent}">
+    </div>
+</div>
+
+<div th:replace="mall/footer::footer-fragment"></div>
+
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script th:src="@{/mall/js/search.js}" type="text/javascript"></script>
+<script type="text/javascript">
+    /**
+     * Add to cart
+     */
+    function saveToCart(id) {
+        var goodsCount = 1;
+        var data = {
+            "goodsId": id,
+            "goodsCount": goodsCount
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/shop-cart',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.resultCode == 200) {
+                    swal({
+                        title: "Added successfully",
+                        text: "Confirmation box",
+                        icon: "success",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((flag) => {
+                            window.location.reload();
+                        }
+                    );
+                } else {
+                    swal(result.message, {
+                        icon: "error",
+                    });
+                }
+            },
+            error: function () {
+                swal("Operation failed", {
+                    icon: "error",
+                });
+            }
+        });
+    }
+
+    /**
+     * Add to cart and jump to cart page
+     */
+    function saveAndGoCart(id) {
+        var goodsCount = 1;
+        var data = {
+            "goodsId": id,
+            "goodsCount": goodsCount
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/shop-cart',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.resultCode == 200) {
+                    swal({
+                        title: "Product added to cart",
+                        icon: "success",
+                        buttons: {
+                            cancel: "Stay on current page",
+                            confirm: "Go to cart to settle"
+                        },
+                        dangerMode: false,
+                    }).then((flag) => {
+                            if (flag) {
+                                window.location.href = '/shop-cart';
+                            }
+                        }
+                    );
+                } else {
+                    swal(result.message, {
+                        icon: "error",
+                    });
+                }
+            },
+            error: function () {
+                swal("Operation failed", {
+                    icon: "error",
+                });
+            }
+        });
+    }
+</script>
+</body>
+</html>
