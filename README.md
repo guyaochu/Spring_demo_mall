@@ -2,6 +2,8 @@
 This demo application is based on Spring Boot
 This demo is not complete. I collected sources from GitHub and other websites. However, this demo is good for learning what the Spring boot is. 
 
+Skill:Springboot + MyBatis + Maven
+
 About mall system
 The whole system includes Mall web system and Mall-admin background system. They are created in the AWS Elastic Beanstalk service.
 
