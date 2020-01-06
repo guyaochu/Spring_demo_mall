@@ -15,9 +15,9 @@ Account: 13700002703
 Password: 123456 
 
 
- Mall Background System:
- Account: admin
- Password:123456
+Mall Background System:
+Account: admin
+Password:123456
 
 Also, I deployed MySQL5.7 database in the AWS RDS service. Developers could change their data source in the application.propertites file.
 
