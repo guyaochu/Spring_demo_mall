@@ -11,7 +11,7 @@ Here is my Java application demo link:
 http://yaochu-mall-demo.us-east-1.elasticbeanstalk.com/
 
 Mall web system:                                 
-Account: 13700002703                             
+Account: 13046902790                             
 Password: 123456 
 
 
